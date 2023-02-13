@@ -1,0 +1,20 @@
+# Arquivos
+
+.prettierrc.json
+
+# Diretorios
+
+.vscode
+node_modules
+# node_modules/*
+
+# * Qualquer coisa
+# *.js
+
+# ? Um caracter
+# f0?.js
+
+# Intervalos [0-9] ou [a-z]
+# f0[0-3].js
+
+# ! Excessão
