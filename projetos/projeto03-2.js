@@ -1,31 +1,50 @@
 'use strict';
 
 /* 
-    Projeto 3 - Jogo da Velha
+  Projeto 3 - Jogo da Velha
 */
 
 const prompt = require('prompt-sync')({ sigint: true });
 console.clear();
 
-const matrizExemplo = [
-  [1, 2, 3],
-  [4, 5, 6],
-  [7, 8, 9],
-];
+function condiçoesIniciais() {
+  vitoria = false;
+  jogada = 'X';
+  jogoVelha = Array(9).fill(0);
+}
 
-const jogoVelha = Array(9).fill(undefined);
+function imprimeJogo(jogo) {
+  console.clear();
 
-let vitoria = false;
-let vencedor;
-let jogada = 'X';
+  console.log('  Posições\t\t    JOGO');
+  console.log(
+    ` ${1} | ${2} | ${3}\t\t ${jogo[0]} | ${jogo[1]} | ${
+      jogo[2]
+    }`,
+  );
+  console.log(`---+---+---\t\t---+---+---`);
+  console.log(
+    ` ${4} | ${5} | ${6}\t =>\t ${jogo[3]} | ${jogo[4]} | ${
+      jogo[5]
+    }`,
+  );
+  console.log(`---+---+---\t\t---+---+---`);
+  console.log(
+    ` ${7} | ${8} | ${9}\t\t ${jogo[6]} | ${jogo[7]} | ${
+      jogo[8]
+    }\n`,
+  );
+}
+let vitoria, vencedor, jogada, jogoVelha;
 let jogadorX = 0,
   jogadorO = 0;
 
-// Enquanto o jogo da velha estiver rodando
+condiçoesIniciais();
 
+// Enquanto o jogo da velha estiver rodando
 while (!vitoria) {
   // Atualização de jogadas
-  console.log(jogoVelha);
+  imprimeJogo(jogoVelha);
   console.log(`É a vez do jogador ${jogada}`);
 
   const coordenadaDesejada = +prompt(
@@ -83,13 +102,14 @@ while (!vitoria) {
       break;
     }
   }
-  
+
   // Inverter o jogador
   jogada = jogada === 'X' ? 'O' : 'X';
 }
 // Resultados finais
 
 if (vitoria) {
+  imprimeJogo(jogoVelha)
   console.log(`O jogador ${vencedor} venceu a partida`);
   if (vencedor === 'X') {
     jogadorX++;
