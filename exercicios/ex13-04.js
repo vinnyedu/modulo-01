@@ -18,40 +18,105 @@ class contato {
   }
 }
 
-const contatos = [];
-
-function funcoes() {
-  while (true) {
-    console.log('[1]Adicionar\n[2]Alterar\n[3]Deletar\n[4]Consultar');
-    const funcao = +prompt();
-    if (funcao < 1 || funcao > 4 || isNaN(funcao)) {
-      console.log('Opção inválida');
-      continue;
-    }
-    return funcao;
-  }
-}
-
 function validarDados(params = 'nome') {
   while (true) {
-    let dado = prompt(`${params}`);
+    let dado = prompt(`${params.toUpperCase()}: `);
+
     if (params === 'nome') {
       dado = dado.trim();
+      if (dado.length < 3) {
+        console.log('Nome deve ter mais de 3 letras');
+        continue;
+      }
+      return dado;
     } else if (params === 'telefone') {
       dado = Number(dado);
-      if (isNaN(dado)) {
+      if (isNaN(dado) || dado.length < 8) {
         console.log('numero invalido');
+        continue;
       }
+      return dado;
+    } else if (params === 'função') {
+      dado = Number(dado);
+      if (dado < 1 || dado > 5 || isNaN(dado)) {
+        console.log('Opção inválida');
+        continue;
+      }
+      return dado;
     }
   }
 }
 
-if (funcao === 1) {
-  adicionar();
-} else if (funcao === 2) {
-  alterar();
-} else if (funcao === 3) {
-  deletar();
-} else if (funcao === 4) {
-  consultar();
+function adicionar(contatos) {
+  const nome = validarDados('nome');
+  const telefone = validarDados('telefone');
+  const newContato = new contato(nome, telefone);
+  contatos.push(newContato);
+  console.log('Contato adicionado');
+}
+
+function alterar(nome, telefone, contatos) {
+  for (const contato of contatos) {
+    if (contato.nome === nome) {
+      contato.telefone = telefone;
+      return true;
+    }
+  }
+  return false;
+}
+
+function deletar(nome, contatos) {
+  for (const contato of contatos) {
+    if (contato.nome === nome) {
+      contatos = contatos.filter(person => person.name != nome);
+      return true;
+    }
+  }
+  return false;
+}
+function consultar(contatos) {
+  for (const contato of contatos) {
+    console.log(`Nome: ${contato.nome} - Telefone: ${contato.telefone}`);
+  }
+}
+
+const contatos = [];
+
+while (true) {
+  console.log('[1]Adicionar\n[2]Alterar\n[3]Deletar\n[4]Consultar\n[5]Sair');
+
+  const opcao = validarDados('função');
+
+  if (opcao === 1) {
+    console.clear();
+
+    console.log('Adicionar novo contato');
+    adicionar(contatos);
+  } else if (opcao === 2) {
+    console.clear();
+
+    console.log('Alterar contato');
+    console.log('Entre com o nome do contado e o NOVO telefone');
+    if (alterar(validarDados('nome'), validarDados('telefone'), contatos)) {
+      console.log('Contado alterado');
+    } else {
+      console.log('Contato não encontrado');
+    }
+  } else if (opcao === 3) {
+    console.clear();
+
+    console.log('Deletar contato');
+    if (deletar(validarDados('nome'), contatos)) {
+      console.log('Contato DELETADO!');
+    } else {
+      console.log('Contato não encontrado');
+    }
+  } else if (opcao === 4) {
+    console.clear();
+    consultar(contatos);
+  } else if (opcao === 5) {
+    console.clear();
+    console.log('Saindo...');
+    break;
+  }
 }
