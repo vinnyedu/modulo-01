@@ -14,10 +14,10 @@ const prompt = require('prompt-sync')({ sigint: true });
 console.clear();
 
 class jogadas {
-  constructor(nome, jogada) {
+  constructor(nome) {
     this.nome = nome;
-    this.jogada = jogada;
-    this.vitorias = 0
+    this.jogada = [];
+    this.vitorias = 0;
   }
 }
 
@@ -44,6 +44,18 @@ function verificarDados(params = 'Nome') {
   }
 }
 
+function verificarVitoria(jogadores) {
+  let maior = 0;
+  for (const jogador of jogadores) {
+    if (jogador.jogada[0] > maior) maior = jogador.jogada[0];
+  }
+  jogadores.forEach(jogador => {
+    if (jogador.jogada[0] === maior) jogador.vitorias += 1;
+  });
+}
+
+const rolarDado = () => Math.floor(Math.random() * 6 + 1);
+
 function main() {
   const jogadores = [];
 
@@ -51,15 +63,21 @@ function main() {
   const numJogadores = verificarDados('Jogadores');
 
   // Nome dos Jogadores
-  for (let i = 0; i < numJogadores; i++) {
-    const jogador = verificarDados('Nome');
+  for (let j = 0; j < numJogadores; j++) {
+    const nome = verificarDados('Nome');
+
+    const jogador = new jogadas(nome);
     jogadores.push(jogador);
   }
 
-  for (let i = 0; i < numRodadas; i++) {
-    const element = array[i];
-    
+  // Jogadas
+  for (let r = 0; r < numRodadas; r++) {
+    jogadores.forEach(jogador => {
+      jogador.jogada.unshift(rolarDado());
+    });
+    verificarVitoria(jogadores);
   }
+  console.log(jogadores);
 }
 
 main();
