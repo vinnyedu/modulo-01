@@ -10,9 +10,9 @@ console.clear();
 // exibirNomeCompleto('Paulo', 'Salvatore')
 
 // Declaração -> Parâmetros
-function exibirNome(nome) {
-    console.log(nome);
-}
+// function exibirNome(nome) {
+//     console.log(nome);
+// }
 
 // Execução -> Argumento
 // const nome1 = 'Paulo'
